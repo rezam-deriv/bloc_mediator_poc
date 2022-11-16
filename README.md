@@ -31,15 +31,15 @@ to
 ## Pros and Cons
 
 ### Pros
-    - separation of blocs (since the communication is handled by the Mediator)
-    - simple and understandable logic
-    - more deterministic behavior
-    - handling `bloc.close` and removing the bloc automatically
-    - no need to handle blocs `id` in case of having multi blocs of the same type
+- separation of blocs (since the communication is handled by the Mediator)
+- simple and understandable logic
+- more deterministic behavior
+- handling `bloc.close` and removing the bloc automatically
+- no need to handle blocs `id` in case of having multi blocs of the same type
 
 ### Cons
-    - onNewState function may become very large.
-    - in case of having more than one bloc of the same type in a widget subtree, only we have access to the nearest bloc of that type
+- onNewState function may become very large.
+- in case of having more than one bloc of the same type in a widget subtree, only we have access to the nearest bloc of that type
 
 ## Suggestion
 
