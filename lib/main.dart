@@ -1,6 +1,7 @@
-import 'package:custom_bloc_provider/mediator_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc_mediator/mediator_bloc_provider.dart';
 
 class CubitA extends Cubit<int> {
   CubitA() : super(0);

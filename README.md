@@ -36,6 +36,7 @@ to
 - more deterministic behavior
 - handling `bloc.close` and removing the bloc automatically
 - no need to handle blocs `id` in case of having multi blocs of the same type
+- we can use standard bloc usage patterns (BlocProvider, Bloc.of(context)) without knowing about the mediator. just needs to replace [BlocProvider] with [MediatorBlocProvider]
 
 ### Cons
 - onNewState function may become very large.
