@@ -43,14 +43,14 @@ class BlocMediator {
     if (state is PriceState) {
       if (blocs.whereType<SymbolCubit>().isNotEmpty) {
         actionOnBlocsOfType<MarketInfoCubit>((cubit) {
-          cubit.onMarketInfoUpdate(
+          cubit.updateMarketInfo(
               state.value, blocs.whereType<SymbolCubit>().first.state.name);
         });
       }
     } else if (state is SymbolState) {
       if (blocs.whereType<PriceCubit>().isNotEmpty) {
         actionOnBlocsOfType<MarketInfoCubit>((cubit) {
-          cubit.onMarketInfoUpdate(
+          cubit.updateMarketInfo(
               blocs.whereType<PriceCubit>().first.state.value, state.name);
         });
       }
