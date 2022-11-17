@@ -1,31 +1,10 @@
+import 'package:custom_bloc_provider/cubits/market_info_cubit.dart';
+import 'package:custom_bloc_provider/cubits/price_cubit.dart';
+import 'package:custom_bloc_provider/cubits/symbol_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc_mediator/mediator_bloc_provider.dart';
-
-class CubitA extends Cubit<int> {
-  CubitA() : super(0);
-
-  void increment() => emit(state + 1);
-
-  void decrement() => emit(state - 1);
-
-  void onCubitBChange(int value) {
-    print("this is CubitA: new value from CubitB : $value");
-  }
-}
-
-class CubitB extends Cubit<int> {
-  CubitB() : super(0);
-
-  void increment() => emit(state + 1);
-
-  void decrement() => emit(state - 1);
-
-  void onCubitAChange(int value) {
-    print("this is CubitB: new value from CubitA : $value");
-  }
-}
 
 void main() {
   runApp(const MyApp());
@@ -52,8 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool showA = false;
-  bool showB = false;
+  bool showSymbol = false;
+  bool showPrice = false;
 
   @override
   Widget build(BuildContext context) {
@@ -64,29 +43,23 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             children: [
               Expanded(
-                child: showA
-                    ? MediatorBlocProvider<CubitA>(
+                child: showSymbol
+                    ? MediatorBlocProvider<SymbolCubit>(
                         create: (BuildContext context) {
-                          return CubitA();
+                          return SymbolCubit();
                         },
                         child: Builder(
                           builder: (context) {
-                            return BlocBuilder<CubitA, int>(
+                            return BlocBuilder<SymbolCubit, SymbolState>(
                               builder: (context, state) {
                                 return Row(
                                   children: [
+                                    Text(state.name),
                                     TextButton(
                                       onPressed:
-                                          BlocProvider.of<CubitA>(context)
-                                              .decrement,
-                                      child: Text("-"),
-                                    ),
-                                    Text(state.toString()),
-                                    TextButton(
-                                      onPressed:
-                                          BlocProvider.of<CubitA>(context)
-                                              .increment,
-                                      child: Text("+"),
+                                          BlocProvider.of<SymbolCubit>(context)
+                                              .next,
+                                      child: Text("next"),
                                     )
                                   ],
                                 );
@@ -100,39 +73,33 @@ class _MyHomePageState extends State<MyHomePage> {
               TextButton(
                 onPressed: () {
                   setState(() {
-                    showA = !showA;
+                    showSymbol = !showSymbol;
                   });
                 },
-                child: Text("toggle A"),
+                child: Text("toggle Symbol"),
               )
             ],
           ),
           Row(
             children: [
               Expanded(
-                child: showB
-                    ? MediatorBlocProvider<CubitB>(
+                child: showPrice
+                    ? MediatorBlocProvider<PriceCubit>(
                         create: (BuildContext context) {
-                          return CubitB();
+                          return PriceCubit();
                         },
                         child: Builder(
                           builder: (context) {
-                            return BlocBuilder<CubitB, int>(
+                            return BlocBuilder<PriceCubit, PriceState>(
                               builder: (context, state) {
                                 return Row(
                                   children: [
+                                    Text(state.value.toString()),
                                     TextButton(
                                       onPressed:
-                                          BlocProvider.of<CubitB>(context)
-                                              .decrement,
-                                      child: Text("-"),
-                                    ),
-                                    Text(state.toString()),
-                                    TextButton(
-                                      onPressed:
-                                          BlocProvider.of<CubitB>(context)
-                                              .increment,
-                                      child: Text("+"),
+                                          BlocProvider.of<PriceCubit>(context)
+                                              .next,
+                                      child: Text("next"),
                                     )
                                   ],
                                 );
@@ -146,13 +113,30 @@ class _MyHomePageState extends State<MyHomePage> {
               TextButton(
                 onPressed: () {
                   setState(() {
-                    showB = !showB;
+                    showPrice = !showPrice;
                   });
                 },
-                child: Text("toggle B"),
+                child: Text("toggle Price"),
               )
             ],
           ),
+          MediatorBlocProvider<MarketInfoCubit>(
+            create: (BuildContext context) {
+              return MarketInfoCubit();
+            },
+            child: Builder(
+              builder: (context) {
+                return BlocBuilder<MarketInfoCubit, MarketInfoState>(
+                  builder: (context, state) {
+                    if (state is LoadedMarketInfoState) {
+                      return Text(state.symbol + " " + state.price.toString());
+                    }
+                    return Text("empty market");
+                  },
+                );
+              },
+            ),
+          )
         ],
       ),
     );

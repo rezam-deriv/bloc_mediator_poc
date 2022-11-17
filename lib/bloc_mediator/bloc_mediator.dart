@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:custom_bloc_provider/cubits/market_info_cubit.dart';
+import 'package:custom_bloc_provider/cubits/price_cubit.dart';
+import 'package:custom_bloc_provider/cubits/symbol_cubit.dart';
 import 'package:custom_bloc_provider/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,16 +40,20 @@ class BlocMediator {
   }
 
   void onNewState(BlocBase bloc, dynamic state) {
-    if (state is int && bloc is CubitA) {
-      actionOnBlocsOfType<CubitB>((cubit) {
-        cubit.onCubitAChange(state);
-      });
-    }
-
-    if (state is int && bloc is CubitB) {
-      actionOnBlocsOfType<CubitA>((cubit) {
-        cubit.onCubitBChange(state);
-      });
+    if (state is PriceState) {
+      if (blocs.whereType<SymbolCubit>().isNotEmpty) {
+        actionOnBlocsOfType<MarketInfoCubit>((cubit) {
+          cubit.onMarketInfoUpdate(
+              state.value, blocs.whereType<SymbolCubit>().first.state.name);
+        });
+      }
+    } else if (state is SymbolState) {
+      if (blocs.whereType<PriceCubit>().isNotEmpty) {
+        actionOnBlocsOfType<MarketInfoCubit>((cubit) {
+          cubit.onMarketInfoUpdate(
+              blocs.whereType<PriceCubit>().first.state.value, state.name);
+        });
+      }
     }
   }
 }
