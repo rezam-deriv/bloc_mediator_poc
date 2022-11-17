@@ -3,7 +3,7 @@
 This poc uses the Mediator design pattern to heandle connection between blocs.
 Instead of blocs, listening to each other, we have a Mediator class that keeps a reference to all blocs and handles communications between them.
 
-Also for handling the bloc's life cycle and having multi blocs of the same type in one Application (instead of using `id` to recognize blocs) I used [BlocProvider] which handles the bloc's life cycle. and disposes the blocs when needed. so every subtree of widgets can have its bloc of a specific type. and we can access blocs using context traverse. like `BlocProvider.of<T>(context)`
+Also for handling the bloc's life cycle and having multiple blocs of the same type in one Application (instead of using `id` to recognize blocs) I used [BlocProvider] which handles the bloc's life cycle. and disposes the blocs when needed. so every subtree of widgets can have its bloc of a specific type. and we can access blocs using context traverse. like `BlocProvider.of<T>(context)`
 
 ## MediatorBlocProvider
 
