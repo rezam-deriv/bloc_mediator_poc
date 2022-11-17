@@ -13,7 +13,7 @@ class LoadedMarketInfoState extends MarketInfoState {
 class MarketInfoCubit extends Cubit<MarketInfoState> {
   MarketInfoCubit() : super(EmptyMarketInfoState());
 
-  void onMarketInfoUpdate(int price, String symbol) {
+  void updateMarketInfo(int price, String symbol) {
     emit(LoadedMarketInfoState(price, symbol));
   }
 }
