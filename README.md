@@ -40,6 +40,7 @@ to
 ### Cons
 - onNewState function may become very large.
 - in case of having more than one bloc of the same type in a widget subtree, only we have access to the nearest bloc of that type
+- in `onNewState` function, we can't differentiate blocs of the same type. in case we need to do some different functionality on blocs of the same type we can use the approach mentioned below in the "Suggestion" section.
 
 ## Suggestion
 

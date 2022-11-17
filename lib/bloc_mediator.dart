@@ -32,19 +32,19 @@ class BlocMediator {
     }
   }
 
-  List<T> getBlocsOfType<T extends BlocBase>() {
-    return blocs.where((element) => element is T).map((e) => e as T).toList();
+  void actionOnBlocsOfType<T extends BlocBase>(void Function(T) action) {
+    blocs.where((element) => element is T).forEach((bloc) => action(bloc as T));
   }
 
   void onNewState(BlocBase bloc, dynamic state) {
     if (state is int && bloc is CubitA) {
-      getBlocsOfType<CubitB>().forEach((cubit) {
+      actionOnBlocsOfType<CubitB>((cubit) {
         cubit.onCubitAChange(state);
       });
     }
 
     if (state is int && bloc is CubitB) {
-      getBlocsOfType<CubitA>().forEach((cubit) {
+      actionOnBlocsOfType<CubitA>((cubit) {
         cubit.onCubitBChange(state);
       });
     }
